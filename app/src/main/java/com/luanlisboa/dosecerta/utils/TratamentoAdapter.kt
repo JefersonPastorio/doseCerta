@@ -12,9 +12,9 @@ class TratamentoAdapter(private val tratamentos: List<Medicamento>) :
     RecyclerView.Adapter<TratamentoAdapter.TratamentoViewHolder>() {
 
     class TratamentoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val nomeMedicamento: TextView = view.findViewById(R.id.tvTituloAnotacao)
+        val nomeMedicamento: TextView = view.findViewById(R.id.tvNomeMedicamento)
         val dosagem: TextView = view.findViewById(R.id.tvDosagem)
-        val horario: TextView = view.findViewById(R.id.tvMensagemAnotacao)
+        val horario: TextView = view.findViewById(R.id.tvHorario)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TratamentoViewHolder {

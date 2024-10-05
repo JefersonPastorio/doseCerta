@@ -12,13 +12,14 @@ import com.luanlisboa.dosecerta.utils.SnackbarUtils
 class CadastroMedicamentoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCadastroMedicamentoBinding
-    private lateinit var medicamentoRepository: MedicamentoRepository
+    private lateinit var medicamentoRepository: MedicamentoRepository // Instância do repositório
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCadastroMedicamentoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Inicializa o repositório
         medicamentoRepository = MedicamentoRepository(this)
 
         val options = resources.getStringArray(R.array.formato)
@@ -29,6 +30,7 @@ class CadastroMedicamentoActivity : AppCompatActivity() {
             val nomeMedicamento = binding.editNomeMedicamento.text.toString()
             val spinnerFormato = binding.spinnerFormato.selectedItem.toString()
 
+            // Salva o formato para ser recuperado no "Cadastro de Alerta"
             val sharedPreferences = getSharedPreferences("FormatoPrefs", MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             editor.putString("selectedFormat", spinnerFormato)
@@ -59,6 +61,7 @@ class CadastroMedicamentoActivity : AppCompatActivity() {
                     val estoqueInt = if (estoque.isEmpty()) 0 else estoque.toInt()
                     val estoqueFormato = if (spinnerEstoque == options[0]) null else spinnerEstoque
 
+                    // Chama o repositório para inserir o medicamento
                     val resultado = medicamentoRepository.inserirMedicamento(
                         nomeMedicamento,
                         spinnerFormato,
