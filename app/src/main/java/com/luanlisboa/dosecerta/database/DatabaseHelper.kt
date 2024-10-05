@@ -21,7 +21,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
 
         val sqlAnotacao = "CREATE TABLE tbl_Anotacao ("  +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "titulo TEXT," +
                 "mensagem TEXT NOT NULL,"  +
+                "id_usuario INTEGER," +
                 "data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP" +
                 ");"
         try {
@@ -121,7 +123,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
             Log.i("info_db", "Erro ao criar a tabela tbl_Alerta")
         }
 
-         // Tabela tbl_Agenda
+        // Tabela tbl_Agenda
 
         val sqlAgenda = "CREATE TABLE tbl_Agenda ("  +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +

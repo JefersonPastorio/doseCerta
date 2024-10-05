@@ -1,29 +1,33 @@
 package com.luanlisboa.dosecerta.fragments
 
+import AnotacoesAdapter
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.luanlisboa.dosecerta.R
-import com.luanlisboa.dosecerta.NovaAnotacaoActivity
+import com.luanlisboa.dosecerta.models.Anotacoes
+import com.luanlisboa.dosecerta.models.Medicamento
+import com.luanlisboa.dosecerta.repository.AlertaRepository
+import com.luanlisboa.dosecerta.repository.AnotacaoRepository
+import com.luanlisboa.dosecerta.repository.MedicamentoRepository
+import com.luanlisboa.dosecerta.view.AnotacaoActivity
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AnotacaoFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AnotacaoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: AnotacoesAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,26 +43,27 @@ class AnotacaoFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_anotacao, container, false)
 
-        val btnNovaAnotacao: MaterialButton = view.findViewById(R.id.btnNovaAnotacao)
-
-        btnNovaAnotacao.setOnClickListener {
-            val intent = Intent(activity, NovaAnotacaoActivity::class.java)
+        // Configura o botão para criar nova anotação
+        val btnCriarAnotacao: MaterialButton = view.findViewById(R.id.btnCriarAnotacao)
+        btnCriarAnotacao.setOnClickListener {
+            val intent = Intent(activity, AnotacaoActivity::class.java)
             startActivity(intent)
         }
+
+        // Configura a RecyclerView
+        recyclerView = view.findViewById(R.id.recyclerViewAnotacoes)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Busca as anotações do banco e configura o adapter
+        val anotacoes = buscarAnotacoesDoBanco()
+        adapter = AnotacoesAdapter(anotacoes)
+        recyclerView.adapter = adapter
+        atualizarAnotacoes()
 
         return view
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AnotacaoFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             AnotacaoFragment().apply {
@@ -67,5 +72,25 @@ class AnotacaoFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    private fun buscarAnotacoesDoBanco(): List<Anotacoes> {
+        val anotacoesRepository = AnotacaoRepository(requireContext())
+        val anotacoes = anotacoesRepository.getAllAnotacoes()
+
+        return anotacoes
+    }
+    // Atualiza a lista de anotações ao retornar para a tela
+    override fun onResume() {
+        super.onResume()
+        atualizarAnotacoes()
+    }
+
+    // Função para buscar as anotações do banco e atualizar o adapter
+    private fun atualizarAnotacoes() {
+        val anotacoes = buscarAnotacoesDoBanco()
+        adapter = AnotacoesAdapter(anotacoes)
+        recyclerView.adapter = adapter
+        adapter.notifyDataSetChanged() // Notifica o adapter sobre as mudanças
     }
 }

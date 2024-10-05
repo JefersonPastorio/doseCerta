@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:weightSum="1"
     tools:context=".fragments.AnotacaoFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewAnotacoes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        />
 
     <LinearLayout
         android:id="@+id/main"
@@ -11,23 +25,23 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/white"
-        android:gravity="center"
-        android:layout_marginTop="350dp">
+        android:gravity="center">
+
         <Button
-            android:id="@+id/btnNovaAnotacao"
+            android:id="@+id/btnCriarAnotacao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="120dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="120sp"
-            android:layout_marginBottom="20sp"
+            android:layout_marginStart="115dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="115dp"
+            android:layout_marginBottom="20dp"
             android:backgroundTint="@color/blue"
-            android:text="+ Nova anotação"
+            android:text="Criar anotação"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:cornerRadius="14dp" />
     </LinearLayout>
 
+</LinearLayout>
 
-
-</FrameLayout>
